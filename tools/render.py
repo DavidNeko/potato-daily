@@ -25,9 +25,16 @@ SEC_CONFIG = load_config()
 
 # 项目路径
 BASE_DIR = Path(__file__).parent.parent  # 项目根目录 (parent of tools/)
+print(f"DEBUG: BASE_DIR={BASE_DIR}")
+print(f"DEBUG: BASE_DIR exists={BASE_DIR.exists()}")
+print(f"DEBUG: BASE_DIR listing={list(BASE_DIR.iterdir())}")
+
 POSTS_DIR = resolve_path(SEC_CONFIG["paths"].get("posts_dir", "./posts"))
 TEMPLATES_DIR = resolve_path(SEC_CONFIG["paths"].get("templates_dir", "./templates"))
 STATIC_DIR = resolve_path(SEC_CONFIG["paths"].get("static_dir", "./static"))
+
+print(f"DEBUG: STATIC_DIR={STATIC_DIR}")
+print(f"DEBUG: STATIC_DIR exists={STATIC_DIR.exists()}")
 
 # 优先从环境变量读取输出目录，方便 GitHub Actions 使用
 ENV_OUTPUT = os.environ.get("MINI_TWITTER_OUTPUT")
