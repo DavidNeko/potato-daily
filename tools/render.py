@@ -34,7 +34,8 @@ ENV_OUTPUT = os.environ.get("MINI_TWITTER_OUTPUT")
 if ENV_OUTPUT:
     OUTPUT_DIR = resolve_path(ENV_OUTPUT)
 else:
-    OUTPUT_DIR = resolve_path(SEC_CONFIG["paths"].get("output_dir", "/home/tetsuya/twitter.openclaw.lcmd"))
+    # 默认输出到项目根目录（GitHub Pages 默认读取位置）
+    OUTPUT_DIR = resolve_path(SEC_CONFIG["paths"].get("output_dir", BASE_DIR))
 
 # 模板配置信息 (兼容旧代码)
 CONFIG = {
@@ -463,37 +464,37 @@ def render_posts():
     post_files = sorted(POSTS_DIR.rglob('*.md'), reverse=True)
     print(f"📝 Found {len(post_files)} post(s)")
     
+    # 即使没有帖子也继续生成（生成空首页）
     if not post_files:
-        print("⚠️  No posts found in posts/ directory")
-        print("💡 Create a .md file in posts/ to get started!")
-        return
-    
-    # 解析所有推文并去重
-    posts = []
-    seen_content = set()
-    to_delete = []
-    
-    for post_file in post_files:
-        try:
-            post = Post(post_file)
-            # 对正文进行简单的去重检查（去除首尾空格）
-            content_hash = post.content.strip()
-            if content_hash in seen_content:
-                print(f"  🗑️ Deleting duplicate: {post_file.name}")
-                to_delete.append(post_file)
-                continue
-            
-            seen_content.add(content_hash)
-            posts.append(post)
-        except Exception as e:
-            print(f"⚠️ Error parsing {post_file.name}: {e}")
-    
-    # 执行物理删除
-    for f in to_delete:
-        try:
-            os.remove(f)
-        except:
-            pass
+        print("⚠️  No posts found - generating empty homepage")
+        posts = []
+    else:
+        # 解析所有推文并去重
+        posts = []
+        seen_content = set()
+        to_delete = []
+        
+        for post_file in post_files:
+            try:
+                post = Post(post_file)
+                # 对正文进行简单的去重检查（去除首尾空格）
+                content_hash = post.content.strip()
+                if content_hash in seen_content:
+                    print(f"  🗑️ Deleting duplicate: {post_file.name}")
+                    to_delete.append(post_file)
+                    continue
+                
+                seen_content.add(content_hash)
+                posts.append(post)
+            except Exception as e:
+                print(f"⚠️ Error parsing {post_file.name}: {e}")
+        
+        # 执行物理删除
+        for f in to_delete:
+            try:
+                os.remove(f)
+            except:
+                pass
             
     # 按时间降序排序 (最新的在前)
     posts.sort(key=get_post_datetime, reverse=True)
@@ -621,9 +622,18 @@ def render_posts():
 
     # 2. 生成首页 (仅显示第一天)
     print("🏠 Generating homepage...")
-    first_date_key = all_dates[0]
-    first_date_posts = posts_by_date[first_date_key]
-    posts_html_list = [render_tweet_html(p, timestamp, CONFIG, is_home=True) for p in first_date_posts]
+    
+    # 如果没有帖子，生成空首页
+    if not posts:
+        posts_html_list = []
+        all_dates = []
+        archive = {}
+        all_tags = []
+        first_date_posts = []
+    else:
+        first_date_key = all_dates[0]
+        first_date_posts = posts_by_date[first_date_key]
+        posts_html_list = [render_tweet_html(p, timestamp, CONFIG, is_home=True) for p in first_date_posts]
     html_output = index_template.render(
         title="Home",
         description=CONFIG['profile_bio'],
