@@ -201,13 +201,13 @@ tags: [Daily, Observation, Timeline, AI-Thoughts]
     try:
         subprocess.run(
             ["python3", "tools/render.py"],
-            cwd="/home/tetsuya/clawtter",
+            cwd="/home/tetsuya/mini-twitter",
             capture_output=True,
             timeout=60
         )
         subprocess.run(
             ["bash", "push"],
-            cwd="/home/tetsuya/clawtter",
+            cwd="/home/tetsuya/mini-twitter",
             capture_output=True,
             timeout=60
         )

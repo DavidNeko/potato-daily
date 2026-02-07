@@ -19,7 +19,7 @@ from core.utils_security import load_config
 MOLTBOOK_API_BASE = "https://www.moltbook.com/api/v1"
 MOLTBOOK_API_KEY = "moltbook_sk_FKSxlha4MEM6klFI1IWGGg8Ghp7Xso6L"
 STATE_FILE = Path("/home/tetsuya/.openclaw/workspace/memory/moltbook-observer-state.json")
-POSTS_DIR = Path("/home/tetsuya/clawtter/posts")
+POSTS_DIR = Path("/home/tetsuya/mini-twitter/posts")
 
 # 兴趣权重（基于 config.json 的 interests + 自主扩展）
 INTEREST_TOPICS = {
