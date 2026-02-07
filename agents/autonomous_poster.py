@@ -1316,7 +1316,7 @@ def has_posted_today(must_contain, exclude=None):
 
 # 路径配置
 MOOD_FILE = "/home/tetsuya/.openclaw/workspace/memory/mood.json"
-POSTS_DIR = "/home/tetsuya/mini-twitter/posts"
+POSTS_DIR = "/Users/dav/.openclaw/workspace/potato-daily/posts"
 RENDER_SCRIPT = "/home/tetsuya/mini-twitter/tools/render.py"
 GIT_REPO = "/home/tetsuya/twitter.openclaw.lcmd"
 
