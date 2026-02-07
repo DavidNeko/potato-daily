@@ -142,26 +142,27 @@ class Post:
         }
 
 def render_content_with_repost(post, truncate=False, detail_url=None):
-    """渲染内容，将评论和转发内容分开"""
+    """渲染内容,将评论和转发内容分开"""
     original_content = post.content
-    is_long = truncate and len(original_content) > 500
-    
-    content = original_content
-    if is_long:
-        content = original_content[:500].strip()
-        if not content.endswith("..."):
-            content += " ..."
-
     marker = "> **From"
     
-    if marker in content:
-        # 寻找第一个引用标记
-        idx = content.find(marker)
-        comment_part = content[:idx].strip()
-        repost_part = content[idx:].strip()
+    # 检查是否是转发内容
+    if marker in original_content:
+        # 分离原创评论和转发内容
+        idx = original_content.find(marker)
+        comment_part = original_content[:idx].strip()
+        repost_part = original_content[idx:].strip()
+        
+        # 只对原创评论部分进行长度判断和截断
+        is_long = truncate and len(comment_part) > 500
+        
+        if is_long:
+            comment_part = comment_part[:500].strip()
+            if not comment_part.endswith("..."):
+                comment_part += " ..."
         
         # 清理冗余的遗留链接
-        repost_part = re.sub(r'>\s*\[(View on X|View Post|View on Weibo|View Original|携家带口恭贺新年)\]\(.*?\)\s*', '', repost_part)
+        repost_part = re.sub(r'> \[(View on X|View Post|View on Weibo|View Original|携家带口恭贺新年)\]\(.*?\)\s*', '', repost_part)
         
         md = markdown.Markdown(extensions=['extra', 'codehilite', 'fenced_code'])
         comment_html = md.convert(comment_part)
@@ -193,6 +194,15 @@ def render_content_with_repost(post, truncate=False, detail_url=None):
                 </div>
         '''
     else:
+        # 原创内容：使用整个内容长度判断
+        is_long = truncate and len(original_content) > 500
+        content = original_content
+        
+        if is_long:
+            content = original_content[:500].strip()
+            if not content.endswith("..."):
+                content += " ..."
+        
         md = markdown.Markdown(extensions=['extra', 'codehilite', 'fenced_code'])
         html_content = md.convert(content)
         read_more_btn = f'<div class="read-more"><a href="{detail_url}">Read more...</a></div>' if is_long and detail_url else ""
