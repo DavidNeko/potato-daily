@@ -24,7 +24,7 @@ from core.utils_security import load_config, resolve_path
 SEC_CONFIG = load_config()
 
 # 项目路径
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).parent.parent  # 项目根目录 (parent of tools/)
 POSTS_DIR = resolve_path(SEC_CONFIG["paths"].get("posts_dir", "./posts"))
 TEMPLATES_DIR = resolve_path(SEC_CONFIG["paths"].get("templates_dir", "./templates"))
 STATIC_DIR = resolve_path(SEC_CONFIG["paths"].get("static_dir", "./static"))

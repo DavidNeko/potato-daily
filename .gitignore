@@ -44,7 +44,9 @@ secrets.json
 manual_rss_post.bak.py
 
 # Generated content (if you don't want to track the build output here)
-dist/
+# dist/  # 已注释，允许 GitHub Pages 使用
+# static/  # 已注释，保留静态资源在仓库中
+
 debug_*.py
 test_*.py
 *_credentials.py
