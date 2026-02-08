@@ -453,10 +453,15 @@ def render_posts():
     import shutil
     print("📦 Copying static files...")
     static_output = OUTPUT_DIR / "static"
-    if static_output.exists():
-        shutil.rmtree(static_output)
-    shutil.copytree(STATIC_DIR, static_output, dirs_exist_ok=True)
-    print(f"  ✓ Copied to {static_output}")
+    
+    # 如果源和目标相同，跳过复制
+    if STATIC_DIR.resolve() == static_output.resolve():
+        print(f"  ⚠️ 源和目标相同，跳过复制: {STATIC_DIR}")
+    else:
+        if static_output.exists():
+            shutil.rmtree(static_output)
+        shutil.copytree(STATIC_DIR, static_output, dirs_exist_ok=True)
+        print(f"  ✓ Copied to {static_output}")
 
     # 创建 .nojekyll 防止 GitHub Pages 运行 Jekyll 构建
     nojekyll_file = OUTPUT_DIR / ".nojekyll"

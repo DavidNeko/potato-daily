@@ -67,7 +67,7 @@
         "memory_dir": "~/.openclaw/workspace/memory",
         "blog_content_dir": "~/HugoContent",
         "moltbook_file": "~/.openclaw/workspace/moltbook.md",
-        "static_dir": "./dist/static",
+        "static_dir": "./static",
         "templates_dir": "./templates",
         "posts_dir": "./posts"
     }
