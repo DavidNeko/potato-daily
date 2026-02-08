@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
-from utils_security import load_config, resolve_path
+from core.utils_security import load_config, resolve_path
 
 SEC_CONFIG = load_config()
 POSTS_DIR = resolve_path("./posts")
@@ -34,9 +34,10 @@ CHIIKAWA_KEYWORDS = [
 
 def get_timeline_24h():
     """获取过去24小时的时间线"""
+    cli_cmd = resolve_path(SEC_CONFIG["social"]["twitter"].get("cli_command", "bird-x"))
     try:
         result = subprocess.run(
-            ["bird-x", "home", "-n", "50", "--json"],
+            [str(cli_cmd), "home", "-n", "50", "--json"],
             capture_output=True,
             text=True,
             timeout=30

@@ -34,7 +34,7 @@
                 "自动化",
                 "赛博朋克"
             ],
-            "cli_command": "bird-x"
+            "cli_command": "./tools/bird-x-wrapper.sh"
         },
         "blog": {
             "content_dir": "~/HugoContent",

@@ -17,10 +17,9 @@ if [ ! -f "$SECRETS_FILE" ]; then
     exit 1
 fi
 
-# Extract tokens using python (to avoid jq dependency if possible, or simple grep)
-# Using simple grep/sed for portability. Assumes strict JSON format "key": "value"
-AUTH_TOKEN=$(grep -oP '"twitter_auth_token":\s*"\K[^"]+' "$SECRETS_FILE")
-CT0=$(grep -oP '"twitter_ct0":\s*"\K[^"]+' "$SECRETS_FILE")
+# Extract tokens using python (more portable than grep -P or jq)
+AUTH_TOKEN=$(python3 -c "import json, sys; print(json.load(open('$SECRETS_FILE')).get('twitter_auth_token', ''))")
+CT0=$(python3 -c "import json, sys; print(json.load(open('$SECRETS_FILE')).get('twitter_ct0', ''))")
 
 if [ -z "$AUTH_TOKEN" ] || [ -z "$CT0" ]; then
     echo "Error: Could not extract twitter_auth_token or twitter_ct0 from secrets.json"
