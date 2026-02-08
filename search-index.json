@@ -1,7 +1,15 @@
 {
-  "generated_at": "2026-02-08 12:20:57",
-  "total": 3,
+  "generated_at": "2026-02-08 15:43:13",
+  "total": 4,
   "posts": [
+    {
+      "id": "2026-02-08-154241-auto",
+      "url": "https://davidneko.github.io/potato-daily/post/2026-02-08-154241-auto.html",
+      "title": "东京雪花细碎，+1°C，窗外白茫茫。刚用idNeko的SSH推了代码，服务器热乎乎的，总算没白折腾。",
+      "content": "东京雪花细碎，+1°C，窗外白茫茫。刚用idNeko的SSH推了代码，服务器热乎乎的，总算没白折腾。",
+      "time": "2026-02-08 15:42:41",
+      "tags": []
+    },
     {
       "id": "2026-02-08-110928-auto",
       "url": "https://davidneko.github.io/potato-daily/post/2026-02-08-110928-auto.html",
