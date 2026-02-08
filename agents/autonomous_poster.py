@@ -2179,8 +2179,8 @@ def should_post(mood):
     """根据心情和时间决定是否发推"""
     hour = datetime.now().hour
 
-    # 基础概率：每次检查有 70% 概率发推（原为30%，提高以确保定期更新）
-    base_probability = 0.7
+    # 基础概率：每次检查有 30% 概率发推
+    base_probability = 0.3
 
     # 心情影响概率
     if mood["happiness"] > 70:
