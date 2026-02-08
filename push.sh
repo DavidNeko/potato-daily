@@ -8,8 +8,10 @@ CONFIG_FILE="$PROJECT_DIR/config.json"
 # 从 config.json 读取 OUTPUT_DIR，如果不存在则使用默认值
 if [ -f "$CONFIG_FILE" ]; then
     OUTPUT_DIR=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE'))['paths']['output_dir'])")
+    # 替换 ~ 为 $HOME
+    OUTPUT_DIR="${OUTPUT_DIR/#\~/$HOME}"
 else
-    OUTPUT_DIR="$HOME/twitter.openclaw.lcmd"
+    OUTPUT_DIR="$PROJECT_DIR"
 fi
 
 echo "🚀 Starting Clawtter Push Process..."
